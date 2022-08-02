@@ -1,15 +1,13 @@
 ---
-  - name: Upload tar.gz Elasticsearch from remote URL
+  - name: Upload tar.gz Elasticsearch from the control node
     copy:
       src: "{{ elastic_package }}"
       dest: "/tmp/elasticsearch-{{ elastic_version }}-linux-x86_64.tar"
-      #mode: 0755
-      #timeout: 60
-      #force: true
     register: get_elastic
     until: get_elastic is succeeded
     tags: elastic
   - name: Create directrory for Elasticsearch
+    become: true
     file:
       state: directory
       path: "{{ elastic_home }}"
